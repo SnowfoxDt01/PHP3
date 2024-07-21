@@ -9,18 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    // hàm up sẽ chạy php artisan migrate
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('user_id');
+        Schema::create('products', function (Blueprint $table) {
+            $table->increments('product_id'); //id: int | nó không âm | sẽ là primary eky
             $table->string('name', 20);
-            $table->string('email', 30)->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password', 100);
             $table->timestamps();
-            $table->string('remember_token', 100);
-            $table->string('address', 100)->nullable();
-            $table->string('phone', 20);
+            $table->string('description', 500)->nullable();
+            $table->float('price', 10, 2)->default(800.02);
            
         });
     }
@@ -28,8 +25,9 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
+    // hàm down để chạy php artisan migrate:rollback
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('products');
     }
 };

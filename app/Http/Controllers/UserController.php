@@ -74,4 +74,9 @@ class UserController extends Controller
         DB::table('users')->where('id', $request->userId)->update($data);
         return redirect()->route('users.listUsers');
     }
+    public function test(){
+        return view('test')->with([
+            'var1'=>'1'
+        ]);
+    }
 }

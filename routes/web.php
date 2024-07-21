@@ -11,9 +11,7 @@ use App\Http\Controllers\UserController;
 // base url: http://127.0.0.1:8000/
 
 // http://127.0.0.1:8000/test
-Route::get('/test', function(){
-    echo 'hello';
-});
+// Route::get('/test', [UserController::class, 'test']);
 
 Route::get('/', function(){
     echo 'Trang chủ';
@@ -76,4 +74,13 @@ Route::group([
     ->name('updateProduct');
     Route::post('update-product', [ProductController::class, 'updatePostProduct'])
     ->name('updatePostProduct');
+});
+
+Route::get('test', function() {
+    return view('test')->with([
+        'var1' => 'hello',
+        'var2' => [
+            'apple', 'orange', 'mango'
+        ]
+    ]);
 });
