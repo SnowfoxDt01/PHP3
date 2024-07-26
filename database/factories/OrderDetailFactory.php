@@ -23,8 +23,8 @@ class OrderDetailFactory extends Factory
             'updated_at' => $this->faker->dateTime,
             'quantity' => $this->faker->randomNumber,
             'price' => $this->faker->randomFloat(2, 1, 100),
-            'order_id' => Order::factory(),
-            'product_id' => Product::factory()
+            'order_id' => Order::all()->random()->order_id,
+            'product_id' => Product::all()->random()->product_id
         ];
     }
 }
