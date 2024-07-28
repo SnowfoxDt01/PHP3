@@ -9,4 +9,5 @@ class OrderDetail extends Model
 {
     use HasFactory;
     protected $table = 'orders_detail'; 
+    protected $primaryKey = 'order_detail_id';
 }

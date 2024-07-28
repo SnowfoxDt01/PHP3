@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\AuthenticationController;
 
 // method http
 // GET, POST, PUT, PATCH, DELETE
@@ -15,6 +16,16 @@ Route::get('/', function(){
     echo 'Trang chủ';
 });
 
+Route::get('login', [AuthenticationController::class, 'login'])
+->name('login');
+Route::post('post-login', [AuthenticationController::class, 'postLogin'])
+->name('postLogin');
+Route::get('logout', [AuthenticationController::class, 'logout'])
+->name('logout');
+Route::get('register', [AuthenticationController::class, 'register'])
+->name('register');
+Route::post('post-register', [AuthenticationController::class, 'postRegister'])
+->name('postRegister');
 
 // // // điều hướng qua action của controller
 // // // php artisan make:controller TênController
@@ -94,23 +105,23 @@ Route::get('/', function(){
 // Route -> Controller -> Model -> DB
 // Controller -> View  list, add, update, detail
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'],
-function(){
-    Route::group(['prefix' => 'products', 'as' => 'products.'], function(){
-        Route::get('/', [ProductController::class, 'listProduct'])
-        ->name('listProduct');
-        Route::get('add-product', [ProductController::class, 'addProduct'])
-        ->name('addProduct');
-        Route::post('add-product', [ProductController::class, 'addPostProduct'])
-        ->name('addPostProduct');
-        Route::delete('delete-product', [ProductController::class, 'deleteProduct'])
-        ->name('deleteProduct');
-        Route::get('detail-product/{idProduct}', [ProductController::class, 'detailProduct'])
-        ->name('detailProduct');
-        Route::get('update-product/{idProduct}', [ProductController::class, 'updateProduct'])
-        ->name('updateProduct');
-        Route::patch('update-product/{idProduct}', [ProductController::class, 'updatePatchProduct'])
-        ->name('updatePatchProduct');
 
+Route::group([
+    'prefix' => 'admin',
+    'as' => 'admin.',
+    'middleware' => 'checkAdmin'
+], function(){
+    Route::group([
+        'prefix' => 'products',
+        'as' => 'products.'
+    ], function(){
+        Route::get('/', [ProductController::class, 'listProduct'])->name('listProduct');
+        Route::get('add-product', [ProductController::class, 'addProduct'])->name('addProduct');
+        Route::post('add-product', [ProductController::class, 'addPostProduct'])->name('addPostProduct');
+        Route::delete('delete-product', [ProductController::class, 'deleteProduct'])->name('deleteProduct');
+        Route::get('detail-product/{idProduct}', [ProductController::class, 'detailProduct'])->name('detailProduct');
+        Route::get('update-product/{idProduct}', [ProductController::class, 'updateProduct'])->name('updateProduct');
+        Route::patch('update-product/{idProduct}', [ProductController::class, 'updatePatchProduct'])->name('updatePatchProduct');
     });
 });
+
