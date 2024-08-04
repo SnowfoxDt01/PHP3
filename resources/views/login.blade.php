@@ -20,10 +20,16 @@
             <div class="mt-3">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" placeholder="email" name="email">
+                @error('email')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
             <div class="mt-3">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" placeholder="password" name="password">
+                @error('password')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
             <div class="mt-3">
                 <input type="checkbox" name="remember" id="remember">

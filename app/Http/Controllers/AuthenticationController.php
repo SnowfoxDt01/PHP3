@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Session;
+use App\Http\Requests\UserLoginRequest;
+
 
 class AuthenticationController extends Controller
 {
@@ -14,7 +16,22 @@ class AuthenticationController extends Controller
         return view('login');
     }
 
-    public function postLogin(Request $req){
+    public function postLogin(UserLoginRequest $req){
+        // validate
+        // cách 1 / không có tính kế thừa nên không nên
+        // $req->validate([
+        //     'email' => 'required|email|exists:users,email',
+        //     'password' => 'required|min:6'
+        // ], [
+        //     'email.required' => 'Email không được để trống',
+        //     'email.email' => 'Email không đúng dịnh dạng',
+        //     'email.exists' => 'Email chưa được đăng ký',
+        //     'password.required' => 'Password không được để trống',
+        //     'password.min' => 'Password ít nhất 6 ký tự'
+        // ]);
+
+
+
         $dataUserLogin = [
             'email' => $req->email,
             'password' => $req->password
@@ -22,10 +39,10 @@ class AuthenticationController extends Controller
         $remember = $req->has('remember');
 
         if(Auth::attempt($dataUserLogin, $remember)){
-            // logout hết các tài khoản khác
-            Session::where('user_id', Auth::user_id())->delete();
-            // tạo phiên đăng nhập mới
-            session()->put('user_id', Auth::user_id());
+            // // logout hết các tài khoản khác
+            // Session::where('user_id', Auth::user_id())->delete();
+            // // tạo phiên đăng nhập mới
+            // session()->put('user_id', Auth::user_id());
 
             // đăng nhập thành côgn
             if(Auth::user()->role == '1' ){
